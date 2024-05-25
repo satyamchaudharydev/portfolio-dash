@@ -2,6 +2,7 @@ import React from 'react'
 import AuthButton from './AuthButton'
 import Image from 'next/image'
 import Link from 'next/link'
+import { NavRoute } from './NavRoute'
 
 export const Navbar = async () => {
   return (
@@ -10,6 +11,9 @@ export const Navbar = async () => {
       <Link href={"/home"}>
         <Image src="/logobig.png" width={80} height={80} alt="logo" />
       </Link>
+      <div>
+        <NavRoute />
+      </div>
         <AuthButton />
     </div>
   </nav>

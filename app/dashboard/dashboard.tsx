@@ -23,16 +23,146 @@ interface LandingPage {
     created_at: string;
 
   } 
-export const Home = ({data, metrics}: {data: LandingPage[], metrics: Metrics}) => {
+export const Dashboard = ({data, metrics}: {data: LandingPage[], metrics: Metrics}) => {
   const [pages,setPages] = React.useState<LandingPage[]>(data)
   const onDeletePage = (id: string) => {
     setPages((prev) => prev.filter((page) => page.id !== id))
   }
   return (
     <>
-    
+    <main className="flex-1 bg-[#252525] dark:bg-gray-800 p-4 md:p-8 grid gap-4 md:gap-8">
+        <section className="bg-background dark:bg-gray-950 rounded-lg p-4 md:p-6 grid gap-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <h1 className="text-2xl font-bold">Welcome back 
+              👋
+                 
+              </h1>
+              <p className="text-gray-500 dark:text-gray-400">Here's a quick overview of your landing pages.</p>
+            </div>
+            <Button asChild className='ml-auto'>
+                <Link href="/create" className='bg-primary'>
+                    Create New 
+                </Link>
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <Card className='bg-[#252525] text-foreground border-0'>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Total Landing Pages</CardTitle>
+                <FileIcon className="w-4 h-4 text-currentColor text-currentColor dark:text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{metrics.totalPages}</div>
+              </CardContent>
+            </Card>
+            <Card className='bg-[#252525] text-foreground border-0'>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Published Pages</CardTitle>
+                <GlobeIcon className="w-4 h-4 text-currentColor dark:text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{metrics.publishedPages}</div>
+              </CardContent>
+            </Card>
+            <Card className='bg-[#252525] text-foreground border-0'>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Drafts</CardTitle>
+                <DeleteIcon className="w-4 h-4 text-currentColor dark:text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{metrics.draftPages}</div>
+              </CardContent>
+            </Card>
+            <Card className='bg-[#252525] text-foreground border-0'>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Total Views</CardTitle>
+                <EyeIcon className="w-4 h-4 text-currentColor dark:text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{metrics.totalViews}</div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+        <section className="bg-background dark:bg-gray-950 rounded-lg md:p-6">
+         
+          <Table className='text-white'>
+            <TableHeader>
+              <TableRow className='hover:bg-transparent'>
+                <TableHead>Page Title</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Views</TableHead>
+                <TableHead>
+                  Click Through Rate
+                </TableHead>
 
-      <div className="w-full">
+                <TableHead>Created</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {pages.map((page: LandingPage) => {
+                return (
+                    <>
+                    <TableRow key={page.id} className='hover:bg-transparent'>
+                       <TableCell>
+                        <div className="flex items-center gap-2">
+                        
+                          <div className="grid gap-0.5">
+                            <div className="font-medium">{page.title}</div>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Status published={page.published} />
+                      </TableCell>
+                      <TableCell>{page.views}</TableCell>
+                      <TableCell>{
+                        page.clicks > 0 ? `${((page.clicks / page.views) * 100).toFixed(2)}%` : "0%"
+                        }</TableCell>
+
+                      <TableCell>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {
+                            new Date(page.created_at).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })
+                          }
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button size="icon" variant="ghost" asChild>
+                            <Link href={`/view/${page.id}`} className='flex justify-between'>
+                              <EyeIcon className="h-5 w-5" />
+                            </Link>
+                          </Button>
+                          <Button size="icon" variant="ghost" asChild>
+                              <Link href={`/edit/${page.id}`} className='flex justify-between'>
+                                <EditIcon className="h-5 w-5" />
+                            </Link>
+                          </Button>
+                          <Button size="icon" variant="ghost" onClick={() => {
+                            onDeletePage(page.id)
+                            handleDelete(page.id)
+                          }}>
+                            <DeleteIcon className="h-5 w-5" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                    </>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </section>
+      </main>
+
+      {/* <div className="w-full">
       <main className='w-full flex justify-center items-center mt-[20px] flex-col'>
       <div className='w-[80%] flex flex-col gap-3'>
           <Button asChild className='ml-auto'>
@@ -74,7 +204,7 @@ export const Home = ({data, metrics}: {data: LandingPage[], metrics: Metrics}) =
       </div>
       </main>
   
-    </div>
+    </div> */}
     </>
   )
 }
