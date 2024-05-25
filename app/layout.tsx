@@ -22,7 +22,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={arimo.className}>
-      <body className="bg-secondary-foreground text-foreground  w-full">
+      <body className="bg-secondary-foreground text-foreground   w-full">
           {children}
         
       </body>

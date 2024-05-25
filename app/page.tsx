@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
 import Header from "@/components/Header";
+import { redirect } from "next/navigation";
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
@@ -16,6 +17,7 @@ export default async function Index() {
       return false;
     }
   };
+  redirect("/home");
 
   const isSupabaseConnected = canInitSupabaseClient();
 
