@@ -1,6 +1,5 @@
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
 import Header from "@/components/Header";
 import { redirect } from "next/navigation";
 
