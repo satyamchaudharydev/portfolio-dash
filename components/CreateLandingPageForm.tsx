@@ -20,13 +20,12 @@ import {
 } from "@/components/ui/resizable"
 import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
-import { AddComponent } from './AddComponent';
 import { supabase } from '@/utils/supabase/client';
 import PreviewSection, { template } from './PreviewLandingPage';
-import { TemplateDropdown } from './TemplateDropdown';
 import { createClient } from '@/utils/supabase/server';
 import { getUser } from '@/lib/getUser';
 import { ModalFormValue } from './CreatePageModal';
+import { AddComponent } from './AddComponent';
 
 export const components = [
   { type: 'footer', label: 'Footer' },
