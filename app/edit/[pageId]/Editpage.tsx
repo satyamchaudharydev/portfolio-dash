@@ -4,7 +4,6 @@
 import CreateLandingPage from "@/app/create/page";
 import AuthButton from "@/components/AuthButton";
 import { CreateForm, FormValues } from "@/components/CreateLandingPageForm";
-import CreatePageModal, { ModalFormValue } from "@/components/CreatePageModal";
 import { Navbar } from "@/components/Navbar";
 import { template } from "@/components/PreviewLandingPage";
 import { TemplateDrawer } from "@/components/TemplateDrawer";
@@ -15,6 +14,7 @@ import { getUser } from "@/lib/getUser";
 import { supabase } from "@/utils/supabase/client";
 import { Switch } from "@/components/ui/switch"
 import { useEffect, useState } from "react";
+import CreatePageModal, { ModalFormValue } from "@/components/CreatePageModal";
 
 export default  function EditPage ({ params }: { params: { pageId: string } }){
   const [pageDetails, setPageDetails] = useState<ModalFormValue>();
