@@ -1,8 +1,6 @@
 "use client"
 import { supabase } from "@/utils/supabase/client";
 import PreviewSection from "@/components/PreviewLandingPage";
-import { getUser } from "@/lib/getUser";
-import CreatePageModal from "@/components/CreatePageModal";
 import { useEffect } from "react";
 
 export default async function ViewPage ({ data }: { data: any }){

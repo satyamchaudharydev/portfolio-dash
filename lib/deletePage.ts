@@ -11,4 +11,10 @@ export const handleDelete = async (id: string) => {
       .eq('user_id', user?.id);
       ;
 
-}
+    if (error) {
+      console.error('Error deleting landing page:', error.message);
+    } else {
+      // Ideally, you should refetch the data or use a state management solution to update the UI
+    //   location.reload(); // Reload the page to see the changes
+    }
+  };
