@@ -53,10 +53,10 @@ export const defaultComponents:
   }
 = {
   'default': [
-    { type: 'header', content: 'This is Header Text' },
+    { type: 'header', content: 'Unleash Your Creativity with Our Innovative Solutions'},
     { type: 'image', content: 'https://images.unsplash.com/flagged/photo-1556470234-36a5389f905a?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
     { type: 'text', content: 'See Endless creativity for using our templates and cool' },
-    { type: 'footer', content: 'Sign Up today' },
+    { type: 'footer', content: '© 2024 Acme Inc. All rights reserved.' },
   ],
   'frisco': [
     { type: 'header', content: `Blog Article` },
@@ -124,7 +124,7 @@ export function CreateForm({mode, data, pageDetails,template, onSubmit, handleCo
       <ResizablePanelGroup direction="horizontal">
   <ResizablePanel className='border: none'> 
   <div className='p-[0.3rem] bg-background h-full'>
-  <div className='rounded-[10px] overflow-hidden h-full'>
+  <div className='rounded-[10px] h-full overflow-scroll'>
             <PreviewSection
               title={title || ""}
               description={description || ""}

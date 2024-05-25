@@ -1,6 +1,6 @@
 "use client"
 import { CreateForm, FormValues, defaultComponents, formSchema } from "@/components/CreateLandingPageForm"
-import  CreatePageModal, { ModalFormValue }  from "@/components/CreatePageModal"
+import { ModalFormValue, CreatePageModal }  from "@/components/CreatePageModal"
 import { template } from "@/components/PreviewLandingPage"
 import { TemplateDrawer } from "@/components/TemplateDrawer"
 import { Button } from "@/components/ui/button"
@@ -35,7 +35,7 @@ export default  function CreateLandingPage () {
             .insert([{ title: pageDetails?.title, description: pageDetails?.description, components: componentData, user_id: user?.id, template_name: template, published: isPublished}])
             .select('')
         
-        const id = data[0].id;
+        const id = data?.[0]?.id;
         router.push(`/edit/${id}`)
        
     };
@@ -49,7 +49,7 @@ export default  function CreateLandingPage () {
                 <div>
                     <TemplateDrawer template={template} changeTemplate={changeTemplate} />
                 </div>
-                <CreatePageModal handleSave={handleSave} />
+                <CreatePageModal handleSave={handleSave} defaultOpen={true} />
                 <div className="flex gap-5">
                     <div className="flex items-center space-x-2">
                         <Label htmlFor="status">Live</Label>

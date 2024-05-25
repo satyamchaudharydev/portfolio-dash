@@ -5,18 +5,38 @@ import { Home } from './Home';
 import { Navbar } from '@/components/Navbar';
 import { redirect } from 'next/navigation';
 
-export default async function Page (){
-    const serverSupabase = createClient();
+export interface Metrics {
+  totalPages: number;
+  publishedPages: number;
+  draftPages: number;
+  totalViews: number;
 
-    const { data: { user } } = await serverSupabase.auth.getUser();
-    if (!user) {
-      return redirect("/login");
-    }
-    const { data, error } = await supabase
-        .from('landing_pages')
-        .select('id, title, description, status')
-        .eq('user_id', user?.id)
+}
+export default async function Page (){
+  const serverSupabase = createClient();
+
+  const { data: { user } } = await serverSupabase.auth.getUser();
+  if (!user) {
+    return redirect("/login");
+  }
+  const { data, error } = await supabase
+      .from('landing_pages')
+      .select('*')
+      .eq('user_id', user?.id)
         ;
+    // Calculate metrics
+  const metrics : Metrics= {
+    totalPages: 0,
+    publishedPages: 0,
+    draftPages: 0,
+    totalViews: 0,
+  };
+  if(data && data?.length > 0){
+    metrics.totalPages = data.length;
+    metrics.publishedPages = data.filter(page => page.published).length;
+    metrics.draftPages = data.filter(page => page.status !== 'Live').length;
+    metrics.totalViews = data.reduce((acc, page) => acc + page.views, 0);
+  }
 
   if (error) {
     console.error('Error fetching landing pages:', error.message);
@@ -24,9 +44,10 @@ export default async function Page (){
   }
 
   return (
-    <div>
-      <Navbar />
-      <Home data={data} />
+    <div className='flex flex-col min-h-[100dvh]'>
+        <Navbar />
+        <Home data={data} metrics={metrics} />
+      {/* <Dashboard data={data} metrics={metrics} /> */}
     </div>
   )
 }

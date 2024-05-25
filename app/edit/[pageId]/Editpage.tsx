@@ -1,10 +1,7 @@
 // import { EditForm } from '@/components/EditForm';
 "use client"
 
-import CreateLandingPage from "@/app/create/page";
-import AuthButton from "@/components/AuthButton";
 import { CreateForm, FormValues } from "@/components/CreateLandingPageForm";
-import { Navbar } from "@/components/Navbar";
 import { template } from "@/components/PreviewLandingPage";
 import { TemplateDrawer } from "@/components/TemplateDrawer";
 import { Button } from "@/components/ui/button";
@@ -14,31 +11,24 @@ import { getUser } from "@/lib/getUser";
 import { supabase } from "@/utils/supabase/client";
 import { Switch } from "@/components/ui/switch"
 import { useEffect, useState } from "react";
-import CreatePageModal, { ModalFormValue } from "@/components/CreatePageModal";
+import {CreatePageModal, ModalFormValue } from "@/components/CreatePageModal";
+import Link from "next/link";
 
-export default  function EditPage ({ params }: { params: { pageId: string } }){
+export default  function EditPage ({data} : {data: any}){
   const [pageDetails, setPageDetails] = useState<ModalFormValue>();
   const [template, setTemplate] = useState<template>("default");
   const [updateComponents, setUpdateComponents] = useState<FormValues | null>(null);
   const [isPublished, setIsPublished]  = useState<boolean>(false);
 
-  const [data, setData] = useState<any>();
-  const pageId =  params.pageId;
+  const id = data?.[0].id
 
-  if (!pageId || typeof pageId !== 'string') {
-    return <div>Invalid page ID</div>;
-  }
   useEffect(() => {
-    const getData = async () => {
-        const { data, error} = await supabase.from('landing_pages').select('*').eq('id', pageId);
-        const {title,description,components, template_name} = data?.[0] || {}
-        setTemplate(template_name);
-        setPageDetails({title, description})
-        setData(data)
-    }
-    getData()
-
-  }, [])
+    setPageDetails({ title: data?.[0].title, description: data?.[0].description });
+    setUpdateComponents({ components: data?.[0].components });
+    setTemplate(data?.[0].template_name);
+    setIsPublished(data?.[0].published);
+  }, [data]);
+  
   const changeTemplate = (template: template) => {
     setTemplate(template);
   };
@@ -48,14 +38,14 @@ export default  function EditPage ({ params }: { params: { pageId: string } }){
   const handleSave = (data: ModalFormValue) => {
     setPageDetails(data);
   };
-  const {title,description,components, published} = data?.[0] || {}
+  const {components, published} = data?.[0] || {}
 
   const onSubmit = async () => {
     const user = await getUser();
     const { error: updateError } = await supabase
     .from('landing_pages')
     .update({ title: pageDetails?.title || "", description: pageDetails?.description || "", components: updateComponents?.components || components, published: false, template_name: template })
-    .eq('id', pageId)
+    .eq('id', id)
     .eq('user_id', user?.id);
     if (updateError) {
         console.error('Error updating data:', updateError.message);
@@ -69,31 +59,38 @@ export default  function EditPage ({ params }: { params: { pageId: string } }){
     const { error: updateError } = await supabase
     .from('landing_pages')
     .update({ published: checked })
-    .eq('id', pageId)
+    .eq('id', id)
     .eq('user_id', user?.id);
    
   }
-
-  if (!data) return <div>Loading...</div>
   return <>
       <div className="w-full">
       <div className="p-4 bg-background border-b border-b-[#252525] flex justify-center items-centers justify-between">
                 <div>
                     <TemplateDrawer template={template} changeTemplate={changeTemplate} />
                 </div>
+                {pageDetails && (
                 <CreatePageModal handleSave={handleSave} title={pageDetails?.title} desc={pageDetails?.description} />
+
+                )}
                 <div className="flex gap-5">
                     <div className="flex items-center space-x-2">
                         <Label htmlFor="status">Live</Label>
                         <Switch 
                             id="edit-status" 
-                            defaultChecked={published}
+                            defaultChecked={isPublished}
                             onCheckedChange={(checked) => {
                                 handlePublish(checked);
                             }}
                         />
                     </div>
                     <Button onClick={() => onSubmit()}>Save</Button>
+                    <Button onClick={() => onSubmit()} asChild>
+                      <Link href={`/view/${id}`}>
+                        Preview
+                      </Link>
+                    </Button>
+
                 </div>
             </div>
             

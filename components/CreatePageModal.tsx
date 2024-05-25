@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { useEffect, useState } from "react"
 
 const formSchema = z.object({
     title: z.string().min(3, {
@@ -28,14 +29,16 @@ const formSchema = z.object({
 })
 export type ModalFormValue = z.infer<typeof formSchema>;
 
-export default function CreatePageModal({
+export function CreatePageModal({
   handleSave,
   title,
-  desc
+  desc,
+  defaultOpen,
 }: {
   handleSave?: (data: ModalFormValue) => void;
   title?: string;
   desc?: string;
+  defaultOpen?: boolean;
 }) {
   const form = useForm<ModalFormValue>({
     resolver: zodResolver(formSchema),
@@ -59,51 +62,51 @@ export default function CreatePageModal({
         </svg>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-[#2B2B2B] border border-background">
+      <DialogContent className="sm:max-w-md bg-[#2B2B2B] border-none">
         <DialogHeader>
           <DialogTitle>Add Details</DialogTitle>
           <DialogDescription>
             Details of Landing page
           </DialogDescription>
+          
         </DialogHeader>
         <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-
             <div className="flex flex-col gap-3">
-            <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                        <Input placeholder="" className='text-background' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-            />
-              
-            <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                        <Input placeholder="" className='text-background' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-            />
+              <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                      <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                          <Input placeholder="" className='text-background' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                  )}
+              />
+                
+              <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                      <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                          <Input placeholder="" className='text-background' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                  )}
+              />
               
             </div>
             <DialogFooter className="sm:justify-start">
-            <Button type="submit" variant="secondary">
-              Save
-            </Button>
-        </DialogFooter>
+              <Button type="submit" variant="secondary">
+                Save
+              </Button>
+          </DialogFooter>
             </form>
         </Form>
        

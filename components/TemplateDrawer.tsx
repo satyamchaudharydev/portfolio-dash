@@ -7,7 +7,11 @@ import { ComponentIcon } from "./ComponentIcon";
 import PreviewSection, { template } from "./PreviewLandingPage";
 import Image from "next/image";
 
-
+const previewImages = {
+    default: "/defaultTemplatePreview.png",
+    frisco: "/friscoTemplatePreview.png",
+  
+}
 export function TemplateDrawer({
     template,
     changeTemplate,
@@ -21,7 +25,7 @@ export function TemplateDrawer({
     <Drawer.Root direction="left">
       <Drawer.Trigger asChild>
         <Button className="h-fit w-full bg-[#2E2E2E] rounded-md flex items-center justify-center text-[1rem] gap-[10px] p-2">
-          Current Template: <span className="text-[#0099FF] underline">{template}</span>
+          Choose Template: <span className="text-[#0099FF] underline">{template}</span>
         </Button>
       </Drawer.Trigger>
       <Drawer.Portal>
@@ -38,17 +42,17 @@ export function TemplateDrawer({
                 allTemplates.map((templateName) => {
                     const isSelected = template === templateName;
                     return (
-                        <div className={`rounded-[15px] ${!isSelected ? "#4c4444" : "bg-[#9dc6d8]" } p-1 h-[300px]`}>
+                        <div className={`rounded-[15px] ${!isSelected ? "#4c4444" : "bg-[#9dc6d8]" } p-1 h-[300px]`}  onClick={() => {
+                          changeTemplate(templateName);
+                      }}>
                              <div key={templateName} className="rounded-[15px] h-full flex justify-center items-center"
                                 style={{
                                     cursor: "pointer",
-                                    backgroundSize: "contain",
-                                    backgroundImage: `url(/defaultPreview.png)`
+                                    backgroundSize: "cover",
+                                    backgroundImage: `url(${previewImages[templateName]})`
                                 }}
                                 >
-                                    <Button className="py-6 rounded-[15px] bg-[#142434]" onClick={() => {
-                                        changeTemplate(templateName);
-                                    }}>
+                                    <Button className="py-6 rounded-[15px] bg-[#142434]">
                                             {isSelected ? "Selected" : "Select"}
                                     </Button>
                                     {/* <Image height={200} width={200} src={"/defaultPreview.png"} alt="Template Preview" /> */}
