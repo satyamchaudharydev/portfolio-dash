@@ -10,6 +10,7 @@ import { getUser } from "@/lib/getUser"
 import { supabase } from "@/utils/supabase/client"
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
+import { toast } from "sonner"
 
 
 export default  function CreateLandingPage () {
@@ -36,7 +37,11 @@ export default  function CreateLandingPage () {
             .select('')
         
         const id = data?.[0]?.id;
+        
         router.push(`/edit/${id}`)
+        toast("Created Succesfully", {
+            description: "Your landing page has been created successfully",
+          })
        
     };
     const handleComponents = (data: FormValues) => {

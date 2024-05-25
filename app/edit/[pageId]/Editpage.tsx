@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch"
 import { useEffect, useState } from "react";
 import {CreatePageModal, ModalFormValue } from "@/components/CreatePageModal";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default  function EditPage ({data} : {data: any}){
   const [pageDetails, setPageDetails] = useState<ModalFormValue>();
@@ -20,12 +21,13 @@ export default  function EditPage ({data} : {data: any}){
   const [updateComponents, setUpdateComponents] = useState<FormValues | null>(null);
   const [isPublished, setIsPublished]  = useState<boolean>(false);
 
-  const id = data?.[0].id
-
+  const id = data?.[0]?.id
+  console.log(data, "data")
   useEffect(() => {
-    setPageDetails({ title: data?.[0].title, description: data?.[0].description });
-    setUpdateComponents({ components: data?.[0].components });
-    setTemplate(data?.[0].template_name);
+    setPageDetails({ title: data?.[0]?.title, description: data?.[0]?.description });
+    setUpdateComponents({ components: data?.[0]?.components });
+    setTemplate(data?.[0]?.template_name);
+    console.log(data?.[0]?.published)
     setIsPublished(data?.[0].published);
   }, [data]);
   
@@ -50,6 +52,9 @@ export default  function EditPage ({data} : {data: any}){
     if (updateError) {
         console.error('Error updating data:', updateError.message);
     } else {
+        toast("Saved Succesfully", {
+          description: "Your landing page has been saved successfully",
+        })
         console.log('Data updated successfully:');
     }
   }
@@ -63,6 +68,7 @@ export default  function EditPage ({data} : {data: any}){
     .eq('user_id', user?.id);
    
   }
+
   return <>
       <div className="w-full">
       <div className="p-4 bg-background border-b border-b-[#252525] flex justify-center items-centers justify-between">
@@ -76,16 +82,21 @@ export default  function EditPage ({data} : {data: any}){
                 <div className="flex gap-5">
                     <div className="flex items-center space-x-2">
                         <Label htmlFor="status">Live</Label>
-                        <Switch 
+                        {
+                          pageDetails && (
+                            <Switch 
                             id="edit-status" 
                             defaultChecked={isPublished}
                             onCheckedChange={(checked) => {
                                 handlePublish(checked);
                             }}
-                        />
+                            />
+                          )
+                        }
+                     
                     </div>
                     <Button onClick={() => onSubmit()}>Save</Button>
-                    <Button onClick={() => onSubmit()} asChild>
+                    <Button asChild>
                       <Link href={`/view/${id}`}>
                         Preview
                       </Link>

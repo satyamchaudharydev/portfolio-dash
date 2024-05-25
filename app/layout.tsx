@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { Nunito_Sans } from 'next/font/google'
+import { Toaster } from "sonner";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -24,7 +25,7 @@ export default function RootLayout({
     <html lang="en" className={arimo.className}>
       <body className="bg-secondary-foreground text-foreground   w-full">
           {children}
-        
+          <Toaster />
       </body>
     </html>
   );
