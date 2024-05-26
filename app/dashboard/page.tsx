@@ -34,7 +34,7 @@ export default async function Page (){
   if(data && data?.length > 0){
     metrics.totalPages = data.length;
     metrics.publishedPages = data.filter(page => page.published).length;
-    metrics.draftPages = data.filter(page => page.status !== 'Live').length;
+    metrics.draftPages = data.filter(page => !page.published).length;
     metrics.totalViews = data.reduce((acc, page) => acc + page.views, 0);
   }
 
