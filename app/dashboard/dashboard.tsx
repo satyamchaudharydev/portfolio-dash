@@ -1,9 +1,6 @@
 "use client"
-import { Navbar } from '@/components/Navbar';
-import { PortfolioCardMenu } from '@/components/PortfolioCardMenu';
 import { Button } from '@/components/ui/button'
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 
 import Image from 'next/image';

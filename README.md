@@ -34,7 +34,7 @@ The Landing Page Dashboard is a web application designed to help users create, m
 - **Template Library**: Provides a library of predefined templates for users to choose from.
 - **User can see other user's landing pages**: Users can view other users' landing pages.
 - **Enhanced UI/UX**: Designed with a focus on clean and intuitive user interface and user experience.
-- **Detailed Metrics**: Displays detailed metrics on the home screen for better overview and management.
+- **Detailed Metrics**: Displays detailed metrics on the home screen for better overview and management. 
 
 ## Technologies Used
 
